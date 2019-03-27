@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from scipy import signal as sig
 from scipy.io import wavfile
 
@@ -8,17 +8,14 @@ def audio_conv(file, hrir_data):
     #read the audio file
     fs, InAudio = wavfile.read(file)
 
-
-    #InAudio = np.transpose([InAudio])
-
-
+    #Audio = np.transpose([InAudio])
+    hrir_data = hrir_data
 
     #print(InAudio)
     #print(InA)
 
     #get the length of the audio file
     duration = len(InAudio)
-
     #seg_nums:  how many segement will be played in a circle
     seg_nums = int(np.size(hrir_data,1)/2)
 
@@ -34,45 +31,28 @@ def audio_conv(file, hrir_data):
     #step of each segment
     step = int(len(InAudio)/seg_nums)
 
-    # length of window size
-    windows_N = 512
-    window = np.transpose(sig.hann(windows_N))
-
-    #pass filter
-    lowpass = sig.firwin(1000,20000/fs*2)
-    highpass = sig.firwin(1000,20/fs*2)
 
     #init segment piece
     segment_L = np.zeros((seg_nums,step))
     segment_R = np.zeros((seg_nums,step))
 
     #hrir_data=np.transpose(hrir_data)
-
     for i in range(seg_nums):
-        Hrir_d=hrir_data[ : , 2 * 0 ]
-        ans=InAudio[ step * 0 : step * ( 0 + 1 )]
-        L = sig.lfilter(np.transpose(hrir_data[ : , 2 * i ]), 1.,InAudio[ step * i : step * ( i + 1 )])
-        R = sig.lfilter(np.transpose(hrir_data[ : , 2 * i + 1]), 1.,InAudio[ step * i : step * ( i + 1 )])
+        Hrir_d=np.transpose(hrir_data[ : , 2 * 0 ])
+        ans=InAudio[ step * 0 : step * (  1 )]
+       # zi = sig.lfilter_zi(np.transpose(hrir_data[ : , 2 * i ]),1.)
+        L = sig.lfilter(np.transpose(hrir_data[ : , 2 * i ]), 1.,InAudio[ step * i : step * ( i + 1 )], axis=0)
+        R = sig.lfilter(np.transpose(hrir_data[ : , 2 * i + 1]), 1.,InAudio[ step * i : step * ( i + 1 )], axis=0)
         #length=np.size(L)
         #L_seg = np.size(segment_L)
         segment_L[i,:] = np.transpose(L)
         segment_R[i,:] = np.transpose(R)
-
-
-
-        #############
-
-        ############
 
     left = segment_L[0]
     right = segment_R[0]
     for i in range(1,seg_nums):
         left = np.hstack((left,segment_L[i]))
         right = np.hstack((right,segment_R[i]))
-
-
-
-
 
     #find max value
     max_value = np.max(np.abs(np.hstack((left,right))))
@@ -82,7 +62,7 @@ def audio_conv(file, hrir_data):
     right = right / max_value
 
     #output
-    out = np.hstack((np.transpose(left),np.transpose(right)))
+    out = np.transpose(np.vstack((left, right)))
 
     #normalization
     max_value = np.max(np.max(np.abs(out)))
@@ -156,7 +136,6 @@ def audio_conv(file, hrir_data):
         left =
 
 '''
-
 
 
 
