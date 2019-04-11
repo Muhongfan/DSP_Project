@@ -12,13 +12,13 @@ import scipy.io as si
 ###################  local imports or local definitions #######################
 #from com.audio_with_brir import audio_conv
 from load_CIPIC_HRIR_VERTICAL import load_CIPIC_HRIR_Vertical
-from load_CIPIC_HRIR import load_CIPIC_HRIR
+#from load_CIPIC_HRIR import load_CIPIC_HRIR
 from audio_fft import audio_test
 ###################  main program #############################################
 
 #plt.close('all')
 
-file = 'audio_test.wav'
+file = 'audio_pro.wav'
 fs = 44100
 hrir_fn= 'hrir_final.mat'
 
@@ -29,15 +29,15 @@ hrir_fn= 'hrir_final.mat'
 # Vertical
 front = 24
 #back = 40
+
 '''
 hrir_l , len1= load_CIPIC_HRIR(hrir_fn,front,back,'left')
 hrir_r , len2 = load_CIPIC_HRIR(hrir_fn,front,back,'right')
-'''
 
+'''
 
 hrir_l , len1= load_CIPIC_HRIR_Vertical(hrir_fn,front,'left')
 hrir_r , len2 = load_CIPIC_HRIR_Vertical(hrir_fn,front,'right')
-
 
 hrir_l=np.transpose(hrir_l)
 hrir_r=np.transpose(hrir_r)
@@ -56,4 +56,4 @@ out = audio_test(file,hrir)
 
 #audio write
 out=np.int16( out* 32767)
-wavfile.write('fft_vertical.wav',fs,out)
+wavfile.write('vertical.wav',fs,out)

@@ -1,3 +1,11 @@
+'''
+
+on a horizontal a plane at the level of the ears,
+i.e., sound moving in circle from the front of the head,
+to the left of the head, to the back of the head,
+to the right of the head, and to the front of the head;
+'''
+
 ###################  main library imports #####################################
 import numpy as np
 #import matplotlib.pyplot as plt
@@ -51,7 +59,6 @@ print("--")
 out = audio_conv(file,hrir)
 #out3 = audio_test(file,hrir)
 
-
 #audio write
 out=np.int16( out* 32767)
-wavfile.write('Horizontal_new.wav',fs,out)
+wavfile.write('Horizontal.wav',fs,out)

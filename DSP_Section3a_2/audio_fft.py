@@ -15,14 +15,13 @@ def audio_test(file, hrir_data):
     #print(InA)
 
     #get the length of the audio file
-    duration = len(InAudio)
+    #duration = len(InAudio)
     #seg_nums:  how many segement will be played in a circle
     seg_nums = int(np.size(hrir_data,1)/2)
 
 
     #step of each segment
     step = int(len(InAudio)/seg_nums)
-
 
     L = step
     P = int(L/2)
@@ -34,12 +33,6 @@ def audio_test(file, hrir_data):
     for i in range(seg_nums):
         hrir_data_L[:, i] = hrir_data[:, 2 * i]
         hrir_data_R[:, i] = hrir_data[:, 2 * i + 1]
-
-
-
-        #hrir_L = np.concatenate((hrir_data_L[:, i], np.zeros(P - 1)))
-        #hrir_R= np.concatenate((hrir_data_R[:, i], np.zeros(P - 1)))
-
 
     N_L = len(hrir_data_L)
     N_R = len(hrir_data_R)
@@ -77,10 +70,6 @@ def audio_test(file, hrir_data):
 
         segment_L[i, :] = y_L[0:N_L + L]
         segment_R[i, :] = y_R[0:N_R + L]
-
-    #segment_L[i, :] = y_L
-    #segment_R[i, :] = y_R
-
 
     left = segment_L[0]
     right = segment_R[0]

@@ -7,7 +7,7 @@ def load_CIPIC_HRIR(hrir_fn,front,back,left_or_right):
     hrir_r=m["hrir_r"]
     if left_or_right == 'left':
         # left ear
-        out_l = np.flip(np.squeeze(hrir_l[:, front, :]),0)
+        out_l = np.flip(np.squeeze(hrir_l[:, front, :]),1)
         out1 = out_l[0:13, :]
         #out2 = np.squeeze(hrir_l[12:24, front, :])
         out2 = out_l[13:25,:]
@@ -16,7 +16,7 @@ def load_CIPIC_HRIR(hrir_fn,front,back,left_or_right):
 
     else:
 
-        out_r = np.flip(np.squeeze(hrir_r[:, front, :]), 0)
+        out_r = np.flip(np.squeeze(hrir_r[:, front, :]), 1)
         out1 = out_r[0:13, :]
         # out2 = np.squeeze(hrir_l[12:24, front, :])
         out2 = out_r[13:25, :]

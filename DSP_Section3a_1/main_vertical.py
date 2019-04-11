@@ -1,3 +1,12 @@
+'''
+
+on a vertical plane crossing the two ears,
+i.e., sound moving on a half-circle from the left of the head,
+to the top of the head (above), to the right of the head.
+
+'''
+
+
 ###################  main library imports #####################################
 import numpy as np
 #import matplotlib.pyplot as plt
@@ -9,11 +18,9 @@ from scipy.io import wavfile
 from scipy import signal as sig
 import scipy.io as si
 
-
 ###################  local imports or local definitions #######################
 from audio_with_hrir import audio_conv
-from load_CIPIC_HRIR import load_CIPIC_HRIR
-#from audio_fft import audio_test
+from load_CIPIC_HRIR_VERTICAL import load_CIPIC_HRIR_Vertical
 
 ###################  main program #############################################
 
@@ -24,15 +31,15 @@ fs = 44100
 hrir_fn= 'hrir_final.mat'
 
 # Horizontal
-front = 8
-back = 40
-
-# Vertical
-#front = 23
+#front = 8
 #back = 40
 
-hrir_l , len1= load_CIPIC_HRIR(hrir_fn,front,back,'left')
-hrir_r , len2 = load_CIPIC_HRIR(hrir_fn,front,back,'right')
+# Vertical
+front = 24
+#back = 40
+
+hrir_l , len1= load_CIPIC_HRIR_Vertical(hrir_fn,front,'left')
+hrir_r , len2 = load_CIPIC_HRIR_Vertical(hrir_fn,front,'right')
 
 
 hrir_l=np.transpose(hrir_l)
@@ -46,12 +53,12 @@ hrir=np.array(np.zeros((200,int(len1*2))))
 for i in range(np.size(hrir_l,1)):
     hrir[:,i*2] = hrir_l[:,i]
     hrir[:,i*2+1] =  hrir_r[:,i]
-print("--")
+
 #conv
 out = audio_conv(file,hrir)
-#out3 = audio_test(file,hrir)
+
 
 
 #audio write
 out=np.int16( out* 32767)
-wavfile.write('Horizontal_new.wav',fs,out)
+wavfile.write('Vertical.wav',fs,out)

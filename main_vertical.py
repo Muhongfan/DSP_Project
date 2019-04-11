@@ -10,16 +10,16 @@ from scipy import signal as sig
 import scipy.io as si
 
 ###################  local imports or local definitions #######################
-from audio_with_brir import audio_conv
+from audio_with_hrir import audio_conv
 from load_CIPIC_HRIR_VERTICAL import load_CIPIC_HRIR_Vertical
 
 ###################  main program #############################################
 
 #plt.close('all')
 
-file = 'audio_test.wav'
+file = 'audio_pro.wav'
 fs = 44100
-hrir_fn= 'com/hrir_final.mat'
+hrir_fn= 'hrir_final.mat'
 
 # Horizontal
 #front = 8
